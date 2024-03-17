@@ -7,7 +7,7 @@
         xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="JsonHelper" Height="650" Width="800">
+        Title="JsonHelper" Height="650" Width="900">
 
     <Window.Resources>
         <Style x:Key="ButtonFunc" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
@@ -22,6 +22,8 @@
             <Setter Property="Background" Value="WhiteSmoke" />
             <Setter Property="TextWrapping" Value="NoWrap" />
             <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="materialDesign:HintAssist.IsFloating" Value="True" />
             <Setter Property="materialDesign:HintAssist.FloatingScale" Value="1" />
             <Setter Property="materialDesign:TextFieldAssist.HasOutlinedTextField" Value="True" />
@@ -43,8 +45,6 @@
 
         <StackPanel Grid.Row="0" Margin="10,0,0,0">
             <StackPanel Width="220">
-                <Button x:Name="ButtonCheck" Content="Json チェック" Style="{StaticResource ButtonFunc}" Click="ButtonCheck_Click" />
-                <Rectangle Height="1" Fill="Gray" Margin="0,10,0,0" />
                 <Button x:Name="ButtonIndentAdd" Content="インデントをつける" Style="{StaticResource ButtonFunc}" Click="ButtonIndentAdd_Click" />
                 <Button x:Name="ButtonIndentDel" Content="インデントをけす"  Style="{StaticResource ButtonFunc}" Click="ButtonIndentDel_Click" />
                 <Rectangle Height="1" Fill="Gray" Margin="0,10,0,0" />
@@ -66,19 +66,40 @@
  
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <TextBox x:Name="TextBoxInput" Style="{StaticResource TextBoxJson}"  Grid.Row="0" materialDesign:HintAssist.Hint="Input" />
-            <TextBox x:Name="TextBoxOutput" Style="{StaticResource TextBoxJson}"  Grid.Row="1" materialDesign:HintAssist.Hint="Output"
+            <Grid Grid.Row="0" Margin="10,10,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ButtonCheck" Style="{StaticResource MaterialDesignFlatButton}" Background="Transparent"
+                        ToolTip="Json チェック" Click="ButtonCheck_Click">
+                    <StackPanel>
+                        <materialDesign:PackIcon Kind="CheckBold" Width="25" Height="25" />
+                    </StackPanel>
+                </Button>
+                <TextBlock x:Name="TextBlockCheck" Foreground="White" TextWrapping="WrapWithOverflow" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,0" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <TextBox x:Name="TextBoxInput" Style="{StaticResource TextBoxJson}"  Grid.Row="0" materialDesign:HintAssist.Hint="Input" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                <TextBox x:Name="TextBoxOutput" Style="{StaticResource TextBoxJson}"  Grid.Row="1" materialDesign:HintAssist.Hint="Output"
                      Margin="10,0,10,10" IsReadOnly="True" />
+            </Grid>
+            <Button x:Name="ButtonSwap" Grid.Row="1" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Center" Click="ButtonSwap_Click">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="SwapVertical" Width="25" Height="25" />
+                </StackPanel>
+            </Button>
+
         </Grid>
-        <Button x:Name="ButtonSwap" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Grid.Column="1" 
-                VerticalAlignment="Center" HorizontalAlignment="Center" Click="ButtonSwap_Click">
-            <StackPanel>
-                <materialDesign:PackIcon Kind="SwapVertical" Width="25" Height="25" />
-            </StackPanel>
-        </Button>
 
     </Grid>
 </Window>

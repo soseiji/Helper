@@ -30,13 +30,19 @@ namespace JsonHelper
 
         private void ButtonCheck_Click(object sender, RoutedEventArgs e)
         {
-            RunJsonHelper(input =>
+            TextBlockCheck.Text = "";
+            var input = TextBoxInput.Text;
+            if (IsEmpty(input)) return;
+            try
             {
-                TextBoxOutput.Text = "";
                 // Json形式でない場合、シリアライザーが例外を返す
                 JsonConvert.DeserializeObject<JObject>(input);
-                TextBoxOutput.Text = "Success !!!";
-            });
+                TextBlockCheck.Text = "Success !!!";
+            }
+            catch (Exception ex)
+            {
+                TextBlockCheck.Text = ex.Message;
+            }
         }
 
         private void ButtonIndentAdd_Click(object sender, RoutedEventArgs e) => RunJsonHelper(input =>
