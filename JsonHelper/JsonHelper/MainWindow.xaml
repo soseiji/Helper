@@ -9,13 +9,13 @@
         Title="JsonHelper" Height="600" Width="800">
 
     <Window.Resources>
-        <Style x:Key="ButtonFunc" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignPaperButton}">
+        <Style x:Key="ButtonFunc" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Height" Value="50" />
             <Setter Property="Margin" Value="0,10,0,0" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>
-        <Style x:Key="TextBoxJson" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+        <Style x:Key="TextBoxJson" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="10" />
             <Setter Property="Background" Value="WhiteSmoke" />
@@ -30,8 +30,8 @@
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="Gray" />
-                <GradientStop Color="DimGray" Offset="1" />
+                <GradientStop Color="Black" />
+                <GradientStop Color="Gray" Offset="1" />
             </LinearGradientBrush>
         </Grid.Background>
         
