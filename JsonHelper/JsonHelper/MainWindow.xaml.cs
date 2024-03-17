@@ -106,6 +106,11 @@ namespace JsonHelper
             Clipboard.SetText(output);
         }
 
+        private void ButtonSwap_Click(object sender, RoutedEventArgs e)
+        {
+            (TextBoxInput.Text, TextBoxOutput.Text) = (TextBoxOutput.Text, TextBoxInput.Text);
+        }
+
         // ---------------------------------------------------------------------------------------------
 
         private bool isValid(string value)
@@ -128,5 +133,6 @@ namespace JsonHelper
         {
             MessageBox.Show(msg, "JsonHelper", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+
     }
 }

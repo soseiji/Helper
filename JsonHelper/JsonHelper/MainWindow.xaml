@@ -62,6 +62,12 @@
             <TextBox x:Name="TextBoxOutput" Style="{StaticResource TextBoxJson}"  Grid.Row="1" materialDesign:HintAssist.Hint="Output"
                      Margin="10,0,10,10" IsReadOnly="True" />
         </Grid>
-        
+        <Button x:Name="ButtonSwap" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Grid.Column="1" 
+                VerticalAlignment="Center" HorizontalAlignment="Center" Click="ButtonSwap_Click">
+            <StackPanel>
+                <materialDesign:PackIcon Kind="SwapVertical" Width="25" Height="25" />
+            </StackPanel>
+        </Button>
+
     </Grid>
 </Window>
