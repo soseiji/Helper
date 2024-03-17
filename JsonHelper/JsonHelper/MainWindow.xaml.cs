@@ -28,70 +28,47 @@ namespace JsonHelper
             InitializeComponent();
         }
 
-        private void ButtonIndentAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonCheck_Click(object sender, RoutedEventArgs e)
         {
-            var input = TextBoxInput.Text;
-            if (!isValid(input)) return;
-            try
+            RunJsonHelper(input =>
             {
-                // 文字列をそのままシリアライズすると、escapeが入るだけ。文字列を一旦オブジェクトに戻す。
-                //TextBoxOutput.Text = JsonConvert.SerializeObject(input, Formatting.Indented);
-                var jObject = JsonConvert.DeserializeObject<JObject>(input);
-                TextBoxOutput.Text = JsonConvert.SerializeObject(jObject, Formatting.Indented);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                showWarnMessage("変換に失敗しました" + Environment.NewLine + ex.Message);
-            }
+                TextBoxOutput.Text = "";
+                // Json形式でない場合、シリアライザーが例外を返す
+                JsonConvert.DeserializeObject<JObject>(input);
+                TextBoxOutput.Text = "Success !!!";
+            });
         }
 
-        private void ButtonIndentDel_Click(object sender, RoutedEventArgs e)
+        private void ButtonIndentAdd_Click(object sender, RoutedEventArgs e) => RunJsonHelper(input =>
         {
-            var input = TextBoxInput.Text;
-            if (!isValid(input)) return;
-            try
-            {
-                var jObject = JsonConvert.DeserializeObject<JObject>(input);
-                TextBoxOutput.Text = JsonConvert.SerializeObject(jObject, Formatting.None);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                showWarnMessage("変換に失敗しました" + Environment.NewLine + ex.Message);
-            }
-        }
+            // 文字列をそのままシリアライズすると、escapeが入るだけ。文字列を一旦オブジェクトに戻す。
+            //TextBoxOutput.Text = JsonConvert.SerializeObject(input, Formatting.Indented);
+            var jObject = JsonConvert.DeserializeObject<JObject>(input);
+            TextBoxOutput.Text = JsonConvert.SerializeObject(jObject, Formatting.Indented);
+        });
 
-        private void ButtonEscapeAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonIndentDel_Click(object sender, RoutedEventArgs e) => RunJsonHelper(input =>
         {
-            var input = TextBoxInput.Text;
-            if (!isValid(input)) return;
-            try
-            {
-                TextBoxOutput.Text = JsonConvert.SerializeObject(input, Formatting.None);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                showWarnMessage("変換に失敗しました" + Environment.NewLine + ex.Message);
-            }
-        }
+            var jObject = JsonConvert.DeserializeObject<JObject>(input);
+            TextBoxOutput.Text = JsonConvert.SerializeObject(jObject, Formatting.None);
+        });
 
-        private void ButtonEscapeDel_Click(object sender, RoutedEventArgs e)
+        private void ButtonEscapeAdd_Click(object sender, RoutedEventArgs e) => RunJsonHelper(input =>
         {
-            var input = TextBoxInput.Text;
-            if (!isValid(input)) return;
-            try
-            {
-                var jToken = JsonConvert.DeserializeObject<JToken>(input);
-                TextBoxOutput.Text = jToken.ToString();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                showWarnMessage("変換に失敗しました" + Environment.NewLine + ex.Message);
-            }
-        }
+            TextBoxOutput.Text = JsonConvert.SerializeObject(input, Formatting.None);
+        });
+
+        private void ButtonEscapeDel_Click(object sender, RoutedEventArgs e) => RunJsonHelper(input =>
+        {
+            var jToken = JsonConvert.DeserializeObject<JToken>(input);
+            TextBoxOutput.Text = jToken.ToString();
+        });
+
+        private void ButtonBase64_Click(object sender, RoutedEventArgs e) => RunJsonHelper(input =>
+        {
+            // 必要な処理を定義
+            TextBoxOutput.Text = input;
+        });
 
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
@@ -102,7 +79,7 @@ namespace JsonHelper
         private void ButtonCopy_Click(object sender, RoutedEventArgs e)
         {
             var output = TextBoxOutput.Text;
-            if (isEmpty(output)) return;
+            if (IsEmpty(output)) return;
             Clipboard.SetText(output);
         }
 
@@ -113,26 +90,40 @@ namespace JsonHelper
 
         // ---------------------------------------------------------------------------------------------
 
-        private bool isValid(string value)
+        private void RunJsonHelper(Action<string> action)
         {
-            if (isEmpty(value))
+            var input = TextBoxInput.Text;
+            if (!IsValid(input)) return;
+            try
             {
-                showWarnMessage("入力データがありません");
+                action.Invoke(input);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowWarnMessage("変換に失敗しました" + Environment.NewLine + ex.Message);
+            }
+        }
+
+        private bool IsValid(string value)
+        {
+            if (IsEmpty(value))
+            {
+                ShowWarnMessage("入力データがありません");
                 return false;
             }
             return true;
         }
 
-        private bool isEmpty(string value)
+        private bool IsEmpty(string value)
         {
             if (value == null) return true;
             return value.Length == 0;
         }
 
-        private void showWarnMessage(string msg)
+        private void ShowWarnMessage(string msg)
         {
             MessageBox.Show(msg, "JsonHelper", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-
     }
 }
